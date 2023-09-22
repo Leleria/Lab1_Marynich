@@ -25,7 +25,7 @@ namespace testing_lab1
         public MainWindow()
         {
             InitializeComponent();
-            Log.Logger = new LoggerConfiguration().WriteTo.File(@"C:\Users\kit\source\repos\testing_lab1\logFile.log").CreateLogger();
+            
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -82,6 +82,7 @@ namespace testing_lab1
 
         private void BtnInput_Click(object sender, RoutedEventArgs e)
         {
+            Log.Logger = new LoggerConfiguration().WriteTo.File(@"G:\testing_lab1\logFile.log").CreateLogger();
             string login = txtLogin.Text.Trim();
             string password = txtPassword.Password.Trim();
             string repeatPassword = txtRepeatPassword.Password.Trim();
@@ -294,93 +295,117 @@ namespace testing_lab1
                 txtPassword.BorderBrush = Brushes.Red;
                 Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, {3}!", login, maskPasswd, maskRepeatPasswd, txtPassword.ToolTip);
             }
-            else if (password.Length > 0 && password.Length < 7)
-            {
-                txtPassword.ToolTip = "Пароль должен иметь минимум 7 символов";
-                txtPassword.BorderBrush = Brushes.Red;
-                Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, {3}!", login, maskPasswd, maskRepeatPasswd, txtPassword.ToolTip);
-            }
-            else if (password.Any(x => char.IsLetter(x) && (x >= 97 && x <= 122) || (x >= 65 && x <= 90)))
-            {
-                txtPassword.ToolTip = "Пароль должен содержать только кириллицу";
-                txtPassword.BorderBrush = Brushes.Red;
-                Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, {3}!", login, maskPasswd, maskRepeatPasswd, txtPassword.ToolTip);
-            }
-            else if (!password.Any(c => char.IsDigit(c)))
-            {
-                txtPassword.ToolTip = "Пароль должен содержать хотя бы одну цифру";
-                txtPassword.BorderBrush = Brushes.Red;
-                Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, {3}!", login, maskPasswd, maskRepeatPasswd, txtPassword.ToolTip);
-            }
-            else if (!password.Any(c => char.IsSymbol(c)))
-            {
-                txtPassword.ToolTip = "Пароль должен содержать хотя бы один спецсимвол";
-                txtPassword.BorderBrush = Brushes.Red;
-                Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, {3}!", login, maskPasswd, maskRepeatPasswd, txtPassword.ToolTip);
-            }
-            else if (!password.Any(x => char.IsLetter(x) && x >= 1072 && x <= 1103))
-            {
-                txtPassword.ToolTip = "Пароль должен содержать хотя бы одну букву в нижнем регистре";
-                txtPassword.BorderBrush = Brushes.Red;
-                Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, {3}!", login, maskPasswd, maskRepeatPasswd, txtPassword.ToolTip);
-            }
-            else if (!password.Any(x => char.IsLetter(x) && x >= 1040 && x <= 1071))
-            {
-                txtPassword.ToolTip = "Пароль должен содержать хотя бы одну букву в верхнем регистре";
-                txtPassword.BorderBrush = Brushes.Red;
-                Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, {3}!", login, maskPasswd, maskRepeatPasswd, txtPassword.ToolTip);
-            }
-            else if (password.Length > 30)
-            {
-                txtPassword.ToolTip = "Пароль не может содержать более 30 символов";
-                txtPassword.BorderBrush = Brushes.Red;
-                Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, {3}!", login, maskPasswd, maskRepeatPasswd, txtPassword.ToolTip);
-            }
-           
-               
             else
             {
-                txtPassword.ToolTip = "";
-                txtPassword.BorderBrush = Brushes.Transparent;
-            }
-
-            if(repeatPassword != password )
-            {
-                txtRepeatPassword.ToolTip = "Пароли не совпадают";
-                txtRepeatPassword.BorderBrush = Brushes.Red;
-                Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, {3}!", login, maskPasswd, maskRepeatPasswd, txtRepeatPassword.ToolTip);
-            }
-            if(repeatPassword == password && repeatPassword.Length != 0 && password.Length != 0)
-            {
-                txtRepeatPassword.ToolTip = "";
-                txtRepeatPassword.BorderBrush = Brushes.Transparent;
-               
-
-                if (testingDBEntities.GetContext().Users.Where(x => x.loginUser == login).FirstOrDefault() == null)
+                if (password.Length > 0 && password.Length < 7)
                 {
-                   
-                    Users user = new Users();
-                    user.loginUser = login;
-                    user.passwordUser = password;
-                    testingDBEntities.GetContext().Users.Add(user);
-                    testingDBEntities.GetContext().SaveChanges();
-                    Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, Успешная регистрация!", login, maskPasswd, maskRepeatPasswd);
-                    MessageBox.Show("Вы зарегистрированы!");
-                    txtLogin.Text = "";
-                    txtPassword.Password = "";
-                    txtRepeatPassword.Password = "";
-
+                    txtPassword.ToolTip = "Пароль должен иметь минимум 7 символов";
+                    txtPassword.BorderBrush = Brushes.Red;
+                    Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, {3}!", login, maskPasswd, maskRepeatPasswd, txtPassword.ToolTip);
                 }
+                else if (password.Any(x => char.IsLetter(x) && (x >= 97 && x <= 122) || (x >= 65 && x <= 90)))
+                {
+                    txtPassword.ToolTip = "Пароль должен содержать только кириллицу";
+                    txtPassword.BorderBrush = Brushes.Red;
+                    Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, {3}!", login, maskPasswd, maskRepeatPasswd, txtPassword.ToolTip);
+                }
+                else if (!password.Any(c => char.IsDigit(c)))
+                {
+                    txtPassword.ToolTip = "Пароль должен содержать хотя бы одну цифру";
+                    txtPassword.BorderBrush = Brushes.Red;
+                    Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, {3}!", login, maskPasswd, maskRepeatPasswd, txtPassword.ToolTip);
+                }
+                else if (!password.Any(c => char.IsSymbol(c)))
+                {
+                    txtPassword.ToolTip = "Пароль должен содержать хотя бы один спецсимвол";
+                    txtPassword.BorderBrush = Brushes.Red;
+                    Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, {3}!", login, maskPasswd, maskRepeatPasswd, txtPassword.ToolTip);
+                }
+                else if (!password.Any(x => char.IsLetter(x) && x >= 1072 && x <= 1103))
+                {
+                    txtPassword.ToolTip = "Пароль должен содержать хотя бы одну букву в нижнем регистре";
+                    txtPassword.BorderBrush = Brushes.Red;
+                    Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, {3}!", login, maskPasswd, maskRepeatPasswd, txtPassword.ToolTip);
+                }
+                else if (!password.Any(x => char.IsLetter(x) && x >= 1040 && x <= 1071))
+                {
+                    txtPassword.ToolTip = "Пароль должен содержать хотя бы одну букву в верхнем регистре";
+                    txtPassword.BorderBrush = Brushes.Red;
+                    Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, {3}!", login, maskPasswd, maskRepeatPasswd, txtPassword.ToolTip);
+                }
+                else if (password.Length > 20)
+                {
+                    txtPassword.ToolTip = "Пароль не может содержать более 20 символов";
+                    txtPassword.BorderBrush = Brushes.Red;
+                    Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, {3}!", login, maskPasswd, maskRepeatPasswd, txtPassword.ToolTip);
+                }
+
                 else
                 {
-                    Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, Пользователь с таким логином уже существует!", login, maskPasswd, maskRepeatPasswd);
-                    MessageBox.Show("Пользователь с таким логином уже существует");
-                    txtLogin.Text = "";
-                    txtPassword.Password = "";
-                    txtRepeatPassword.Password = "";
+                    txtPassword.ToolTip = "";
+                    txtPassword.BorderBrush = Brushes.Transparent;
+
+                    if (repeatPassword != password)
+                    {
+                        txtRepeatPassword.ToolTip = "Пароли не совпадают";
+                        txtRepeatPassword.BorderBrush = Brushes.Red;
+                        Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, {3}!", login, maskPasswd, maskRepeatPasswd, txtRepeatPassword.ToolTip);
+                    }
+                    else 
+                    {
+                        txtRepeatPassword.ToolTip = "";
+                        txtRepeatPassword.BorderBrush = Brushes.Transparent;
+
+                        if (testingDBEntities.GetContext().Users.Count() == 0)
+                        {
+                            Users user = new Users();
+                            user.loginUser = login;
+                            user.passwordUser = password;
+                            testingDBEntities.GetContext().Users.Add(user);
+                            testingDBEntities.GetContext().SaveChanges();
+                            Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, Успешная регистрация!", login, maskPasswd, maskRepeatPasswd);
+                            MessageBox.Show("Вы зарегистрированы!");
+                            txtLogin.Text = "";
+                            txtPassword.Password = "";
+                            txtRepeatPassword.Password = "";
+                        }
+
+                        else  if (testingDBEntities.GetContext().Users.Where(x => x.loginUser == login).FirstOrDefault() == null)
+                        {
+
+                            Users user = new Users();
+                            user.loginUser = login;
+                            user.passwordUser = password;
+                            testingDBEntities.GetContext().Users.Add(user);
+                            testingDBEntities.GetContext().SaveChanges();
+                            Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, Успешная регистрация!", login, maskPasswd, maskRepeatPasswd);
+                            MessageBox.Show("Вы зарегистрированы!");
+                            txtLogin.Text = "";
+                            txtPassword.Password = "";
+                            txtRepeatPassword.Password = "";
+
+                        }
+                        else
+                        {
+                            Log.Information("Логин: {0}, Пароль: {1}, Повторный пароль: {2}, Пользователь с таким логином уже существует!", login, maskPasswd, maskRepeatPasswd);
+                            MessageBox.Show("Пользователь с таким логином уже существует");
+                            txtLogin.Text = "";
+                            txtPassword.Password = "";
+                            txtRepeatPassword.Password = "";
+                        }
+
+
+                    }
+                   
                 }
-                    
+
             }
+            
+           
+               
+            
+
+           
 
         }
 
