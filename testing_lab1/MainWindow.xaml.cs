@@ -90,7 +90,7 @@ namespace testing_lab1
                 maskPasswd += Convert.ToString(Convert.ToInt32(item) + 7) + "#";
 
             maskRepeatPasswd = "";
-            foreach (var item in repeatPassword)
+            foreach (var item in repeatPassword) 
                 maskRepeatPasswd += Convert.ToString(Convert.ToInt32(item) + 7) + "#";
 
 
